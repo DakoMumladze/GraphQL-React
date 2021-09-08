@@ -5,25 +5,37 @@ import gql from 'graphql-tag'
 
 
 class LyricList extends Component {
-    onLike(id) {
-        console.log(id, 12121)
+    onLike(id, likes) {
         this.props.mutate({
             variables: {
                 id
+            },
+            optimisticResponse: {
+                __typeName: 'Mutation',
+                likeLyric: {
+                    __typeName: 'LyricType',
+                    id,
+                    likes: likes + 1
+                }
             }
         })
     }
     renderLyrics() {
-        return this.props.lyrics.map(({content,id}) => {
+        return this.props.lyrics.map(({ content,id, likes }) => {
             return (
                 <li key={id} className='collection-item'> 
                     {content}
-                    <i 
-                        className="material-icons"
-                        onClick={() => this.onLike(id)}
-                    >
-                        thumb_up
-                    </i>
+                    
+                    <div className="vote-box">
+                        <span className="">{likes}</span>
+                        <i 
+                            className="material-icons"
+                            onClick={() => this.onLike(id, likes)}
+                        >
+                            thumb_up
+                        </i>
+                    </div>
+                    
                 </li>
             )
         })
