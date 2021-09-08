@@ -39,6 +39,7 @@ class SongList extends Component {
     
         return (
             <div>
+                <h5>Song list</h5>
                 <ul className="collection">
                     {this.renderSongs()}
                 </ul>
